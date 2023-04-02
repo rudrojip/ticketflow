@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Dashboard from "./Dashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import { Suspense } from "react";
+import PageNotFound from "./PageNotFound";
+import Ticket from "./Ticket";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Router>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </div>
+          }
         >
-          Learn React
-        </a>
-      </header>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/ticket/:ticketId" element={<Ticket />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Suspense>
+      </Router>
     </div>
   );
 }
